@@ -1,4 +1,5 @@
 import { makeAutoObservable } from "mobx";
+import { Login } from "../shared/api";
 
 export class AuthStore {
   isAuthenticated = false;
@@ -10,19 +11,9 @@ export class AuthStore {
 
   login = async (email: string, password: string) => {
     try {
-      const response = await fetch("http://localhost:3000/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      if (!response.ok) throw new Error("Login failed");
-
-      const data = await response.json();
-      this.token = data.token;
-      localStorage.setItem("token", data.token);
+      const res = await Login({ email, password });
+      this.token = res.data.token || null;
+      localStorage.setItem("token", this.token || "");
       this.isAuthenticated = true;
     } catch (error) {
       console.error(error);

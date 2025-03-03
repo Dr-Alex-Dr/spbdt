@@ -2,17 +2,23 @@ import React, { useState } from "react";
 import { Button, TextField, Container, Typography, Box } from "@mui/material";
 import { observer } from "mobx-react";
 import { AuthStore } from "../stores/AuthStore";
+import { useNavigate } from "react-router-dom";
 
 export const AuthPage: React.FC = observer(() => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const authStore = new AuthStore();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    authStore.login(email, password);
+    await authStore.login(email, password);
+
+    if (authStore.token) {
+      navigate("/home", { replace: true });
+    }
   };
 
   return (
@@ -32,10 +38,13 @@ export const AuthPage: React.FC = observer(() => {
           <Box
             component="form"
             onSubmit={handleSubmit}
+            autoComplete="on"
             sx={{ mt: 2, width: "100%" }}
           >
             <TextField
               label="Email"
+              name="email"
+              autoComplete="username"
               fullWidth
               margin="normal"
               value={email}
@@ -44,7 +53,9 @@ export const AuthPage: React.FC = observer(() => {
             />
             <TextField
               label="Password"
+              name="password"
               type="password"
+              autoComplete="current-password"
               fullWidth
               margin="normal"
               value={password}

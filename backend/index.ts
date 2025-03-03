@@ -3,6 +3,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import { register, login, protectedRoute } from "./src/authController";
 import { authenticateToken } from "./src/authMiddleware";
+import { authOpti } from "./src/controllers/authOpti";
 
 dotenv.config();
 

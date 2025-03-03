@@ -1,0 +1,53 @@
+.rdrDateRangePickerWrapper {
+  font-family: "Roboto", sans-serif !important;
+}
+
+.rdrInputRanges {
+  display: none;
+}
+
+.rdrInRange {
+  background-color: #0078d2;
+}
+
+.rdrStartEdge {
+  background-color: #0078d2;
+}
+
+.rdrEndEdge {
+  background-color: #0078d2;
+}
+
+.rdrDateDisplayItemActive {
+  border-color: #0078d2;
+}
+
+.rdrStaticRange:nth-child(1) {
+  display: none;
+}
+
+.rdrStaticRange:nth-child(2) {
+  display: none;
+}
+
+.rdrStaticRange {
+  max-width: 150px;
+  width: 100%;
+  border: none;
+}
+
+.rdrStaticRanges {
+  justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+}
+
+.rdrDateRangePickerWrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.rdrDefinedRangesWrapper {
+  width: 100%;
+  border: none;
+}
