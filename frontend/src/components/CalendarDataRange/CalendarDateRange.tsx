@@ -1,18 +1,11 @@
-import { addDays } from "date-fns";
 import { ru } from "date-fns/locale";
 import { observer } from "mobx-react-lite";
-import { useState } from "react";
 import { DateRangePicker } from "react-date-range";
 import { defaultStaticRanges } from "react-date-range";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import "./CalendarDateRange.scss";
-
-interface DateRange {
-  startDate: Date;
-  endDate: Date;
-  key: string;
-}
+import { DateRange, HomePageStore } from "../../Pages/HomePage/HomePageStore";
 
 const customStaticRanges = defaultStaticRanges.map((range) => {
   switch (range.label) {
@@ -33,24 +26,24 @@ const customStaticRanges = defaultStaticRanges.map((range) => {
   }
 });
 
-export const CalendarDateRange = observer(() => {
-  const [state, setState] = useState<DateRange[]>([
-    {
-      startDate: new Date(),
-      endDate: addDays(new Date(), 7),
-      key: "selection",
-    },
-  ]);
+export interface ICalendarDateRangeParams {
+  store: HomePageStore;
+}
 
-  return (
-    <DateRangePicker
-      onChange={(item) => setState([item.selection as DateRange])}
-      staticRanges={customStaticRanges}
-      moveRangeOnFirstSelection={false}
-      months={2}
-      ranges={state}
-      direction="horizontal"
-      locale={ru}
-    />
-  );
-});
+export const CalendarDateRange: React.FC<ICalendarDateRangeParams> = observer(
+  ({ store }) => {
+    const { setRange, selectedRange } = store;
+
+    return (
+      <DateRangePicker
+        onChange={(item) => setRange(item.selection as DateRange)}
+        staticRanges={customStaticRanges}
+        moveRangeOnFirstSelection={false}
+        months={2}
+        ranges={[selectedRange]}
+        direction="horizontal"
+        locale={ru}
+      />
+    );
+  }
+);

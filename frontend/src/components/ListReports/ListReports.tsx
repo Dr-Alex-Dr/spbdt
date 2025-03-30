@@ -7,6 +7,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { observer } from "mobx-react-lite";
 import { Link, styled } from "@mui/material";
+import { HomePageStore } from "../../Pages/HomePage/HomePageStore";
+import React from "react";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -27,42 +29,54 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(date: string, name: string, status: string) {
-  return { date, name, status };
+const transformDate = (dateString: string) => {
+  const date = new Date(dateString);
+
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(date.getUTCDate()).padStart(2, "0");
+
+  return `${day}.${month}.${year}`;
+};
+
+export interface IListReportsParams {
+  store: HomePageStore;
 }
 
-const rows = [
-  createData("19.02.2025 13:01", "Транзакционный отчет за период", "Скачать"),
-  createData("19.02.2025 13:01", "Транзакционный отчет за период", "Скачать"),
-  createData("19.02.2025 13:01", "Транзакционный отчет за период", "Скачать"),
-];
+export const ListReports: React.FC<IListReportsParams> = observer(
+  ({ store }) => {
+    const { reportsList, timers } = store;
 
-export const ListReports = observer(() => {
-  return (
-    <TableContainer component={Paper} elevation={0}>
-      <Table sx={{ minWidth: 650 }} aria-label="ListReports">
-        <TableHead>
-          <StyledTableRow>
-            <StyledTableCell>Дата заказа отчета</StyledTableCell>
-            <StyledTableCell>Название отчета</StyledTableCell>
-            <StyledTableCell>Статус отчета</StyledTableCell>
-          </StyledTableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row, index) => (
-            <StyledTableRow
-              key={index}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <StyledTableCell>{row.date}</StyledTableCell>
-              <StyledTableCell>{row.name}</StyledTableCell>
-              <StyledTableCell>
-                <Link href="#">{row.status}</Link>
-              </StyledTableCell>
+    return (
+      <TableContainer component={Paper} elevation={0}>
+        <Table sx={{ minWidth: 650 }} aria-label="ListReports">
+          <TableHead>
+            <StyledTableRow>
+              <StyledTableCell>Дата заказа отчета</StyledTableCell>
+              <StyledTableCell>Название отчета</StyledTableCell>
+              <StyledTableCell>Статус отчета</StyledTableCell>
             </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
-});
+          </TableHead>
+          <TableBody>
+            {reportsList.map((item, index) => (
+              <StyledTableRow
+                key={index}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <StyledTableCell>{transformDate(item.date)}</StyledTableCell>
+                <StyledTableCell>{item.name}</StyledTableCell>
+                <StyledTableCell>
+                  {timers[item.id] ? (
+                    timers[item.id]
+                  ) : (
+                    <Link href={item.link}>Скачать</Link>
+                  )}
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    );
+  }
+);

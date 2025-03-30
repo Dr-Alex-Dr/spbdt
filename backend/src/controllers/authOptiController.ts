@@ -2,7 +2,7 @@ import { getSessionId } from "../shared/api";
 import fs from "fs";
 import path from "path";
 
-export const authOpti = async () => {
+export const authOptiController = async () => {
   const session_id = await getSessionId();
 
   const envPath = path.resolve(".env");

@@ -36,7 +36,7 @@ export const HomePage: React.FC = observer(() => {
           </Button>
         </div>
 
-        {isLoading ? renderLoading() : <ListReports />}
+        {isLoading ? renderLoading() : <ListReports store={store} />}
       </div>
       <CreateReportModal store={store} />
     </div>

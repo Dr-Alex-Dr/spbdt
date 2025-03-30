@@ -1,52 +1,68 @@
 import {
   Box,
   Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
+  CircularProgress,
+  IconButton,
   Modal,
-  Select,
-  SelectChangeEvent,
 } from "@mui/material";
 import { observer } from "mobx-react";
 import { HomePageStore } from "../../Pages/HomePage/HomePageStore";
 import React from "react";
 import styles from "./CreateReportModal.module.scss";
 import { CalendarDateRange } from "../CalendarDataRange/CalendarDateRange";
+import CloseIcon from "@mui/icons-material/Close";
 
 export interface ICreateReportModalParams {
   store: HomePageStore;
 }
 
-const names = [
-  "Оборот по картам по типам клиентов в разрезе цен на продукты, услуги за период",
-  "Итоговый протокол транзакций (ведомость)",
-  "Транзакционный отчет за период",
-];
+// const names = [
+//   "Оборот по картам по типам клиентов в разрезе цен на продукты, услуги за период",
+//   "Итоговый протокол транзакций (ведомость)",
+//   "Транзакционный отчет за период",
+// ];
 
 export const CreateReportModal: React.FC<ICreateReportModalParams> = observer(
   ({ store }) => {
-    const { handleClose, modalState } = store;
-    const [age, setAge] = React.useState("");
+    const { handleClose, modalState, sendReport, isLoadingCreateReport } =
+      store;
 
-    const handleChange = (event: SelectChangeEvent) => {
-      setAge(event?.target?.value as string);
+    const renderLoading = () => {
+      return (
+        <div className={styles.loadingContainer}>
+          <CircularProgress size="25px" />
+        </div>
+      );
     };
 
     return (
       <Modal open={modalState} onClose={handleClose}>
         <Box className={styles.modalContainer}>
-          <FormControl fullWidth size="medium">
+          {isLoadingCreateReport ? (
+            renderLoading()
+          ) : (
+            <div className={styles.wrapper}>
+              <div className={styles.modalHeader}>
+                <IconButton aria-label="close" onClick={handleClose}>
+                  <CloseIcon />
+                </IconButton>
+              </div>
+
+              {/* <FormControl fullWidth size="medium">
             <InputLabel>Тип отчёта *</InputLabel>
             <Select value={age} label="Type report" onChange={handleChange}>
               {names.map((name) => (
                 <MenuItem value={name}>{name}</MenuItem>
               ))}
             </Select>
-          </FormControl>
+          </FormControl> */}
 
-          <CalendarDateRange />
-          <Button variant="contained">Заказать отчет</Button>
+              <CalendarDateRange store={store} />
+              <Button onClick={sendReport} variant="contained">
+                Заказать отчет
+              </Button>
+            </div>
+          )}
         </Box>
       </Modal>
     );

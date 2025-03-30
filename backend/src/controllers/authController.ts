@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import dotenv from "dotenv";
-import { createUser, findUser } from "./userModel";
+import { createUser, findUser } from "../models/userModel/userModel";
 
 dotenv.config();
 
@@ -40,8 +40,4 @@ export const login = async (req: Request, res: Response) => {
     expiresIn: "1h",
   });
   res.json({ token });
-};
-
-export const protectedRoute = (req: Request, res: Response) => {
-  res.json({ message: `Йоу, ${(req as any).user.username}!` });
 };

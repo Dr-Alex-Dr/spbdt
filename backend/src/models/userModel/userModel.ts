@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
-import { query } from "./db";
-import { User } from "./authController";
+import { query } from "../../shared/db";
+import { User } from "../../controllers/authController";
 
 export const findUser = async (username: string) => {
   const user = await query('SELECT * FROM "Users" WHERE login = $1;', [

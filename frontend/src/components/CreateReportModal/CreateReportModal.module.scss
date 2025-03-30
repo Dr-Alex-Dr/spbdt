@@ -3,9 +3,24 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  max-width: 800px;
+  max-width: 710px;
   width: 100%;
   background-color: #fff;
   padding: 20px;
   border-radius: 4px;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 573px;
+}
+
+.wrapper {
 }

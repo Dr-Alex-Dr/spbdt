@@ -1,6 +1,6 @@
 .container {
   padding-top: 45px;
-  padding: 56px 30px 0 30px;
+  padding: 56px 30px 20px 30px;
 }
 
 .loadingContainer {
@@ -20,4 +20,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.Snackbar {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  border-radius: 4px;
+  padding: 15px;
+  background-color: #fff;
 }

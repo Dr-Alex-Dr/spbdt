@@ -52,3 +52,60 @@ export const getReports = async () => {
     console.error("Error:", error);
   }
 };
+
+export const createReportRequestApi = async (
+  id: string,
+  start_date: string,
+  end_date: string,
+  id_card: string[]
+) => {
+  const headers = {
+    api_key: process.env.OPTI_API,
+    date_time: timestamp(),
+    session_id: process.env.SESSION_ID,
+    "Content-Type": "application/json",
+  };
+
+  const data = JSON.stringify({
+    id,
+    format: "xlsx",
+    params: {
+      start_date,
+      end_date,
+      id_card,
+      id_agreement: ["1-15TEUP5H"],
+    },
+  });
+
+  try {
+    const response = await axios.post(`${baseUrl}/vip/v2/reports`, data, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};
+
+export const getReportFile = async (job_id: string) => {
+  const headers = {
+    api_key: process.env.OPTI_API,
+    session_id: process.env.SESSION_ID,
+    date_time: timestamp(),
+  };
+
+  try {
+    const response = await axios.get(
+      `${baseUrl}/vip/v2/reports/jobs/${job_id}`,
+      {
+        headers,
+        responseType: "stream",
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error:", error);
+  }
+};

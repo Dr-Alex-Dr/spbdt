@@ -20,3 +20,28 @@ export const Login = async (user: User) => {
     }
   );
 };
+
+export const createReport = async (startDate: string, endDate: string) => {
+  return axios.post(
+    `${url}/report`,
+    {
+      startDate,
+      endDate,
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
+};
+
+export const getReports = async () => {
+  return axios.get(`${url}/reports`, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  });
+};
