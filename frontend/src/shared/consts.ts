@@ -1,1 +1,1 @@
-export const url = "https://sicaroteb.beget.app";
+export const url = "https://sicaroteb.beget.app/api";

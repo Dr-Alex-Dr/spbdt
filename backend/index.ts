@@ -20,15 +20,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.post("/register", register);
-app.post("/login", login);
+app.post("/api/register", register);
+app.post("/api/login", login);
 
-app.post("/report", authenticateToken, createReportRequest);
-app.get("/reports", authenticateToken, getReports);
+app.post("/api/report", authenticateToken, createReportRequest);
+app.get("/api/reports", authenticateToken, getReports);
 
-app.post("/cards", addCards);
-app.get("/cards", getAllCards);
-app.delete("/cards", deleteCards);
+app.post("/api/cards", addCards);
+app.get("/api/cards", getAllCards);
+app.delete("/api/cards", deleteCards);
 
 // authOptiController();
 
