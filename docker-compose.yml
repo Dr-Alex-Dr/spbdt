@@ -1,0 +1,44 @@
+services:
+  nginx:
+    image: nginx
+    container_name: my_nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./frontend/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./frontend/dist:/usr/share/nginx/html
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+  backend:
+    build: ./backend
+    env_file:
+      - ./backend/.env
+    container_name: my_backend
+    ports:
+      - "3001:3001"
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres:17
+    container_name: my_postgres
+    environment:
+      - POSTGRES_USER=aleksejlinkov
+      - POSTGRES_PASSWORD=Zoom-zoom1
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+
+volumes:
+  postgres_data:
