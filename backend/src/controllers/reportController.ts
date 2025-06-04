@@ -74,7 +74,7 @@ export const downloadReportFile = async (
       return;
     }
 
-    await updateReport(report_id, `locahost:3000/${nameFile}`);
+    await updateReport(report_id, `http://localhost:3001/reports/${nameFile}`);
 
     console.log("Файл успешно сохранен!");
   });
